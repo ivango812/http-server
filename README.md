@@ -9,7 +9,7 @@ Python 2
 
 ## Configuring ##
 
-
+config.ini
 
 ## Runing ##
 
@@ -19,3 +19,4 @@ Python 2
 
 ## Testing ##
 
+`httptest.py`

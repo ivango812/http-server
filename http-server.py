@@ -142,7 +142,7 @@ class Response:
         try:
             if request.method == METHOD_GET:
                 with open(document_path, 'r') as f:
-                    content = f.read()
+                    content = f.read(100000000)
                     length = len(content)
             if request.method == METHOD_HEAD:
                 content = ''
@@ -192,7 +192,7 @@ class Server:
         self.serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.serversocket.bind((server_addr, server_port))
-        self.serversocket.listen(50)
+        self.serversocket.listen(100)
         self.serversocket.setblocking(0)
         self.serversocket.setsockopt(socket.SOL_TCP, socket.TCP_NODELAY, 1)
 
@@ -244,6 +244,7 @@ class Server:
         if len(self.responses[fileno]) == 0:
             self.epoll.modify(fileno, 0)
             self.connections[fileno].shutdown(socket.SHUT_RDWR)
+            self.connections[fileno].close()
 
     def run(self):
         try:
